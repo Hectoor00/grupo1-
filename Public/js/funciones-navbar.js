@@ -1,81 +1,31 @@
-$(document).ready(function () {
-    /* Cargar vista usuario */
-    $(".user").click(function(event) {
-        $("#contenido").load("usuarios/principal.php");
+$(document).ready(function() {
+    /*Boton Clientes*/
+    $("a.clientes").click(function(event) {
+        $("#contenido").load("./views/clientes/cliente.php");
         event.preventDefault();
     });
-     /* Cargar vista de productos */
-    $(".product").click(function(event) {
-        $("#contenido").load("productos/principal.php");
+    /*Boton Adminsitrador*/
+    $("a.p-admin").click(function(event) {
+        $('#contenido').html('<div class="loading" style="margin-top:100px;text-align:center;"><img src="./public/img/login/load.gif" alt="loading" /><br/>Un momento, por favor...</div>');
+        $("#contenido").load("./views/panel/principal.php");
         event.preventDefault();
     });
-
-     /* Cargar vista de Categorias */
-    $(".categorias").click(function(event) {
-        $("#contenido").load("categoria/principal.php");
+    /*Boton Inventarios*/
+    $("a.inventarios").click(function(event) {
+        $("#contenido").load("./views/panel/inventarios/principal.php");
         event.preventDefault();
     });
-
-     /* Cargar vista de Categorias */
-     $(".proveedores").click(function(event) {
-        $("#contenido").load("proveedores/principal.php");
+    /* Btn Salir */
+    $("a.salir").click(function(event) {
         event.preventDefault();
-    });
-     /* Cargar vista de Categorias */
-     $(".inventario").click(function(event) {
-        $("#contenido").load("inventario/principal.php");
-        event.preventDefault();
-    });
-    
-    /* btn salir*/
-    $(".exit-sys").click(function () {
-        if (confirm('Seguro/a en cerrar sesion')) {
-            $("#contenido").load("../../index.php");
-        }
-        else {
-            alert('Cierre de sesion cancelado');
-            $("#contenido").load("usuarios/principal.php");
-        }
-    });
-// funcion para eliminar el usuario
-    $(".exit-sys1").click(function () {
-        if (confirm('Seguro/a que desea eliminar el usuario')) {
-            $("#contenido").load("usuarios/principal.php"); 
-        }
-        else {
-            alert('Eliminar usuario cancelado');
-            $("#contenido").load("usuarios/principal.php");
-        }
-    });
-    //funcion para eliminar la categoria
-    $(".eliminar-sys1").click(function () {
-        if (confirm('Seguro/a que desea eliminar la categoria')) {
-            $("#contenido").load("categoria/principal.php"); 
-        }
-        else {
-            alert('Eliminar la categoria cancelada');
-            $("#contenido").load("categoria/principal.php");
-        }
-    });
-    // funcion para eliminar el proveedor
-    $(".exit-provee").click(function () {
-        if (confirm('Seguro/a que desea eliminar el proveedor')) {
-            $("#contenido").load("proveedores/principal.php"); 
-        }
-        else {
-            alert('Eliminar el proveedor cancelado');
-            $("#contenido").load("proveedores/principal.php");
-        }
-    });
-
-    // para la confirmacion de eliminar un producto
-    $(".exit-sys3").click(function () {
-        if (confirm('Seguro/a que desea eliminar el producto')) {
-            $("#contenido").load("productos/principal.php"); 
-        }
-        else {
-            alert('Eliminar el producto cancelado');
-            $("#contenido").load("productos/principal.php");
-        }
+        alertify.confirm('Cerrar Sesión', 'Seguro/a en cerrar sesión',
+            function() {
+                $("#data").load("index.php?off=1");
+            },
+            function() {
+                alertify.error('Cierre de sesión cancelado...');
+            }
+        );
+        
     });
 });

@@ -1,25 +1,22 @@
-<?php
+<?php 
     class login
- {
-    public function GetDataUser($user)
     {
-        $row = NULL;
-        $modelo = new ConexBD();
-        $conexion = $modelo->get_conexion();
-        $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
-        $stm = $conexion->prepare($sql);
-        $stm->bindParam(':usuario',$user);
-        $stm->execute();
-
-        while ($result = $stm->fetch())
+        public function GetDataUSer($user,$tabla,$campo)
         {
-            $row[] = $result;
+            $row = NULL;
+            $modelo = new ConexionBD();
+            $arg = ":".$campo;
+            $conexion = $modelo->get_conexion();
+            $sql = "SELECT * FROM $tabla WHERE $campo = $arg";
+            $stm = $conexion->prepare($sql);
+            $stm->bindParam($arg,$user);
+            $stm->execute();
+
+            while ($result = $stm->fetch())
+            {
+                $row[] = $result;
+            }
+            return $row;
         }
-
-        return $row;
-
     }
-      
- }
- 
 ?>

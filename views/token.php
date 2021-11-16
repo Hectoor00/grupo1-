@@ -1,27 +1,36 @@
-<?php
-include '../Models/conexion.php';
-include '../Controllers/prosesos.php';
-include '../Models/procesos.php';
+<?php 
+    include '../models/conexion.php';
+    include '../controllers/funciones.php';
+    include '../models/procesos.php';
+    
+    $user = $_POST['user'];
+    $email = $_POST['email'];
 
-$user = $_POST['user'];
-$email= $_POST['email'];
+    $buscaUser = buscavalor("usuarios","COUNT(usuario)","usuario = '$user'");
+    $buscaEmail = buscavalor("usuarios","COUNT(correo)","usuario = '$user' AND correo = '$email'");
+?>
 
-$buscaUser = buscavalor("usuarios", "COUNT(usuario)","usuario = '$user'");
-$buscaEmail = buscavalor("usuarios","COUNT(usuario)","usuario = '$user' AND email = '$email'");
-
-if($buscaUser != 0 AND $buscaEmail !=0){
-    $Token= Token(8);
-    Email($email,$Token);
-
-    $update = CRUD("UPDATE usuarios SET token ='$Token' WHERE usuario='$user'","u");
-
-    if($update)
-    {
-        header("Location: cambio_clave.php");
-    }else{
-
-    }
-}
-else{
-
-}
+<?php if($buscaUser != 0 AND $buscaEmail != 0):?>
+    <?php 
+         $token = Token(8);
+         Email($email,$token);
+ 
+         $update =  CRUD("UPDATE usuarios SET token='$token' WHERE usuario='$user'","u");    
+    ?>
+    <?php if(update):?>
+        <script>
+            alertify.success("Token envíado favor verificar su correo...");
+            $("#data").load("./index.php?cc=1");
+        </script>
+    <?php else:?>
+        <script>
+            alertify.success("Error vuelva a intentar generar el token");
+            $("#data").load("./index.php?olvide=1");
+        </script>
+    <?php endif ?>
+<?php else:?>
+    <script>
+        alertify.error("Error usuario ó email no coinciden con los de la base de datos..");
+        $("#data").load("./index.php?olvide=1p");
+    </script>
+<?php endif ?>
